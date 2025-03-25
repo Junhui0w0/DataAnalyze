@@ -55,28 +55,27 @@ months = list(calendar.month_abbr)[1:]  # ['Jan', 'Feb', ..., 'Dec']
 
 # 3x3 서브플롯 생성
 fig, axes = plt.subplots(3, 3, figsize=(20, 15)) #3x3 // 전체는 20inch x 15inch
-fig.suptitle('월 별 강수량과 교통사고 연관 관계 (2016-2022)', fontsize=18, y=0.95)
+fig.suptitle('Monthly Accident Related With Rainfall (2016-2022)', fontsize=18, y=0.95)
 
 # 각 연도별 플롯 생성
-for idx, year in enumerate(years):
-    row = idx // 3
-    col = idx % 3
+for idx, year in enumerate(years): #2016 ~ 2022 (7개년)
+    row = idx // 3 #0 ~ 2
+    col = idx % 3 # 0 ~ 2 (3x3 크기)
     ax = axes[row][col]
     
     # 강수량 데이터 플롯 (파란색)
     ax.plot(months, rain_lst[idx], 
             marker='o', 
-            # color='#1f77b4',
-            color = 'blue',
+            color='#1f77b4',
             linewidth=2,
             label='Rainfall')
     
     # 사고율 데이터 플롯 (주황색)
-    ax2 = ax.twinx()
+    ax2 = ax.twinx() #-> 서로 다른 단위나 크게 다른 스케일을 가진 두 데이터셋을 동일한 그래프에 표시할 때
+        #또는, 두 그래프의 경향성을 동시에 비교하고 싶을 때
     ax2.plot(months, TA_lst[idx], 
              marker='s', 
-            #  color='#ff7f0e',
-             color='orange',
+             color='#ff7f0e',
              linestyle='--', 
              linewidth=2,
              label='Accidents')
@@ -104,24 +103,35 @@ plt.show()
 
 
 
+#pip install xlrd
+#어린이 교통사고
+age_under_12_TA_df_list = []
+tmp = pd.read_excel(
+    'Traffic_Accident/어린이교통사고_2016_2020.xls',
+    header=None
+)
 
-# #pip install xlrd
-# #어린이 교통사고
-# age_under_12_TA_df_list = [0,1]
-# tmp = pd.read_excel(
-#     'Traffic_Accident/어린이교통사고_2016_2020.xls',
-#     header=None
-# )
-# age_under_12_TA_df_list[0] = tmp
+print(tmp) #[0][2]~[65][2]
 
-# tmp = pd.read_excel(
-#     'Traffic_Accident/어린이교통사고_2021_2022.xls',
-#     header=None
-# )
-# age_under_12_TA_df_list[1] = tmp
+for i in range(1,66):
+    print(f'index={i}, tmp[i][1]={tmp[i][1]}')
+    if i % 13 == 1:
+        print(tmp[i][1])
+        continue
+
+    age_under_12_TA_df_list.append(int(tmp[i][2]))
 
 
-# # 강수량(rain_df)에 비례한 사고 발생률(TA)
+tmp = pd.read_excel(
+    'Traffic_Accident/어린이교통사고_2021_2022.xls',
+    header=None
+)
 
+for i in range(1,27):
+    print(f'index={i}, tmp[i][1]={tmp[i][1]}')
 
-# # 속도에 비례한 사고 발생률
+    if i % 13 == 1:
+        print(tmp[i][1])
+        continue
+
+    age_under_12_TA_df_list.append(int(tmp[i][2]))
