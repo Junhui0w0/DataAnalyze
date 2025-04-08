@@ -4,51 +4,6 @@ import matplotlib.pyplot as plt
 import calendar
 import tkinter as tk
 
-speed_before = 1
-speed_after = 1
-n = 1
-TA_rate_related_speed = (speed_after / speed_before) ** n
-
-
-def get_value(gui_b, gui_a, gui_n):
-    global speed_after, speed_before, n
-    speed_before = int(gui_b)
-    speed_after = int(gui_a)
-    n = int(gui_n)
-    draw_plot()
-
-def draw_gui():
-    root = tk.Tk()
-    root.title("속도 변경 GUI - TA_Children")
-    root.geometry("400x500") # 창 크기 설정
-
-    # 변경 전 속도 라벨과 엔트리
-    tk.Label(root, text="변경 전 속도:").pack(pady=10)
-    entry_before_speed = tk.Entry(root)
-    entry_before_speed.pack(pady=10)
-
-    # 변경 후 속도 라벨과 엔트리
-    tk.Label(root, text="변경 후 속도:").pack(pady=10)
-    entry_after_speed = tk.Entry(root)
-    entry_after_speed.pack(pady=10)
-
-    # 부상상태 라벨과 엔트리
-    tk.Label(root, text="부상상태:").pack(pady=10)
-    entry_injury_status = tk.Entry(root)
-    entry_injury_status.pack(pady=10)
-
-    action_btn = tk.Button(root, text='실행', command=lambda: get_value(entry_before_speed.get(), entry_after_speed.get(), entry_injury_status.get()))
-    action_btn.pack(pady=10)
-
-    # 메인 루프 실행
-    root.mainloop()
-
-draw_gui()
-
-
-
-
-
 
 
 children_TA_list = [[] for i in range(7)]
@@ -97,44 +52,49 @@ print(children_TA_list)
 
 
 
+def draw_gui():
+    root = tk.Tk()
+    root.title("속도 변경 GUI - TA_Children")
+    root.geometry("400x500") # 창 크기 설정
 
+    # 변경 전 속도 라벨과 엔트리
+    tk.Label(root, text="변경 전 속도:").pack(pady=10)
+    entry_before_speed = tk.Entry(root)
+    entry_before_speed.pack(pady=10)
 
+    # 변경 후 속도 라벨과 엔트리
+    tk.Label(root, text="변경 후 속도:").pack(pady=10)
+    entry_after_speed = tk.Entry(root)
+    entry_after_speed.pack(pady=10)
 
+    # 부상상태 라벨과 엔트리
+    tk.Label(root, text="부상상태(2-경상, 3-중상, 4-사망):").pack(pady=10)
+    entry_injury_status = tk.Entry(root)
+    entry_injury_status.pack(pady=10)
 
+    action_btn = tk.Button(root, text='실행', command=lambda: draw_plot(entry_before_speed.get(), entry_after_speed.get(), entry_injury_status.get()))
+    action_btn.pack(pady=10)
 
+    # 메인 루프 실행
+    root.mainloop()
 
+def draw_plot(before_speed, after_speed, injurt_status):
+    TA_rate_related_speed = (int(after_speed) / int(before_speed)) ** int(injurt_status)
 
+    children_TA_list2 = [[0]*12 for _ in range(7)]
 
-children_TA_list2 = [[0]*12 for i in range(7)]
+    # Nilsson의 Power Model - 속도에 따른 사고 발생률
+    for i in range(7):
+        for j in range(12):
+            children_TA_list2[i][j] = children_TA_list[i][j] * TA_rate_related_speed
 
-# Nilsson의 Power Model - 속도에 따른 사고 발생률
-for i in range(7):
-    for j in range(12):
-        children_TA_list2[i][j] = children_TA_list[i][j] * (1-TA_rate_related_speed)
-
-speed_lst = [i for i in range(30, 150, 10)]
-TA_rate = []    
-
-
-
-
-
-
-
-
-
-
-
-
-
-def draw_plot():
     # plot 작성
     years = list(range(2016, 2023)) #2016 ~ 2022
     months = list(calendar.month_abbr)[1:]  # ['Jan', 'Feb', ..., 'Dec']
 
     # 3x3 서브플롯 생성
-    fig, axes = plt.subplots(3, 3, figsize=(20, 15)) #3x3 // 전체는 20inch x 15inch
-    fig.suptitle('Monthly Accident Related With Children', fontsize=18, y=0.95)
+    fig, axes = plt.subplots(3, 3, figsize=(20, 13)) #3x3 // 전체는 20inch x 15inch
+    fig.suptitle(f'Monthly Accident Related With Children // Speed: {before_speed} -> {after_speed}', fontsize=18, y=0.95)
 
     # 각 연도별 플롯 생성
     for idx, year in enumerate(years): #2016 ~ 2022 (7개년)
@@ -174,3 +134,5 @@ def draw_plot():
     plt.tight_layout()
     plt.subplots_adjust(top=0.92, hspace=0.4, wspace=0.3)
     plt.show()
+
+draw_gui()
