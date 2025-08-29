@@ -5,7 +5,7 @@ def p(title, data):
     return print(f'<{title}> \n {data} \n')
 
 #1. 결측치 처리
-df = pd.read_csv('sales_data_dirty.csv')
+df = pd.read_csv('csv/sales_data_dirty.csv')
 p('전체적인 데이터 프레임', df)
 
 is_null = df.isnull() #- 각 value에 대해서 NaN(null)값인 경우 True로 반환
