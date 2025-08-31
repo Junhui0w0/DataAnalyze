@@ -83,3 +83,10 @@ Nilsson의 Power Model 공식을 이용해 계산
     1. MSE 또는 RMSE를 통해 정확도 계산
 3. 로지스틱 회귀 - 특정 데이터를 분류할 때 사용
     1. accuracy score를 통해 정확도 계산
+
+----
+
+## 2025-09-01 ##
+1. BS4 & Selenium을 활용한 HTML Parser, 데이터 수집
+2. CSV 데이터 제작
+3. 기본적인 Tableau 사용법
