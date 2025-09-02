@@ -202,6 +202,6 @@ api*.txt
 *.txt
 !test.py
 kaggle.json
-
+README_TMP.md
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows
