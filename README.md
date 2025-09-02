@@ -86,7 +86,7 @@ Nilsson의 Power Model 공식을 이용해 계산
 
 ----
 
-## 2025-09-01: 데이터 수집 파이프라인 구축, Tableau 시각화 ##
+## 2025-09-01: 데이터 수집 파이프라인 구축 연습, Tableau 시각화 ##
 1. BS4 & Selenium을 활용한 HTML Parser, 데이터 수집
 2. CSV 데이터 제작
 3. 기본적인 Tableau 사용법
